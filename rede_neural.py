@@ -18,6 +18,12 @@ class RedeNeural:
         self.w2 = np.random.randn(10,1) * 0.1 # 10 neuronos na camada oculta e 1 de saída
         self.b2 = np.random.rand(1, 1)  * 0.1 # um peso pro neuronio de saída
 
+    def setar_pesos_bias(self,w1,b1,w2,b2):
+        self.w1 = w1
+        self.b1 = b1
+        self.w2 = w2
+        self.b2 = b2
+
     def sigmoide(self, x):
         return 1 / (1 + self.np.exp(-x))
 

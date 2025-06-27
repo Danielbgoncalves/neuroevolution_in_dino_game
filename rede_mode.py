@@ -1,5 +1,19 @@
+""" Neural Neuwork mode: Aqui a rede joga com gráficos """
+
 import tkinter as tk
+import numpy as np
 from PIL import Image, ImageTk
+
+from rede_neural import RedeNeural
+
+rede = RedeNeural(np)
+dados = np.load("melhor_rede.npz")
+rede.setar_pesos_bias(
+    dados["w1"], 
+    dados["b1"], 
+    dados["w2"], 
+    dados["b2"]
+)
 
 # Criar janela com o Tkinter
 LARGURA = 600
@@ -61,7 +75,9 @@ cactos_vel = 8
 cactos = [cacto1, cacto2]
 
 # Texto co score
-pontuacao = canvas.create_text(LARGURA - 50, 20, text="Score: 0000")
+pontuacao_info = canvas.create_text(LARGURA - 50, 20, text="Score: 0000")
+velocidade_info = canvas.create_text(LARGURA - 120, 20, text="Velocidade: 0000")
+
 
 # Animar o dino
 def animar_dino():
@@ -83,33 +99,63 @@ def atualizar():
         x, _ = canvas.coords(cacto["id"])
         if x < - 60:
             canvas.move(cacto["id"], LARGURA + 60, 0)
-            if cactos_vel < 18: 
+            if cactos_vel < 25: 
                 cactos_vel += 0.15
 
     score += 0.09
 
     atualizar_dino(cactos_vel)
     colidiu_dino()
-    atualiza_score(score)
+    atualiza_info_txts(score, cactos_vel)
+
+    rede_joga()
 
 
     janela.after(30, atualizar)
 
 # Score
-def atualiza_score(score):
-    canvas.itemconfig(pontuacao, text=f"Score: {int(score)}")
+def atualiza_info_txts(score, velocidade):
+    canvas.itemconfig(pontuacao_info, text=f"Score: {int(score)}")
+    canvas.itemconfig(velocidade_info, text=f"Velocidade: {int(velocidade)}")
+
+def recolhe_input():
+    dino_x, dino_y= canvas.coords(dino)
+    distancias = []
+    for i, cacto in enumerate(cactos):
+        x, _ = canvas.coords(cacto["id"])
+        if x - dino_x > 0:
+            distancias.append((x - dino_x, i))
+
+    min_dist, idx = min(distancias)
+    cacto_w = cactos[idx]["w"]
+
+    return np.array([
+                min_dist / (LARGURA / 2),
+                cacto_w / 60, # porque esse é o maior cacto
+                cactos_vel / 18,
+                movimento_y / 1.5,
+                (300 - dino_y) / (300 - 241.5)
+            ])
+
+def rede_joga():
+    global movimento_y
+    dados = recolhe_input()
+    pula = rede.forward(dados) > 0.5 
+
+    if pula and movimento_y == 0:
+        movimento_y = -9
 
 #  Detecção de tecla clicada
-def tecla_pressionada(event):
-    global movimento_y, dino_vivo
+# def tecla_pressionada(event):
+#     global movimento_y, dino_vivo
 
-    if event.keysym == "space" and movimento_y == 0:
-        movimento_y = -9
-    print("velocidade dos cactos: ", cactos_vel)
-    print("velocidade do dino: ", movimento_y)
+#     if event.keysym == "space" and movimento_y == 0:
+#         movimento_y = -9
+#     print("velocidade dos cactos: ", cactos_vel)
+#     print("velocidade do dino: ", movimento_y)
 
-    if event.char == 'a':
-        dino_vivo = True
+#     if event.char == 'a':
+#         dino_vivo = True
 
     
 def atualizar_dino(velocidade_cacto):
@@ -148,13 +194,13 @@ def colidiu_dino():
 def game_over():
     global dino_vivo, dino_alturas
     dino_vivo = False
-    print(f"Maior altura do dino: {min(dino_alturas)} \nMenor Altura do dino: {max(dino_alturas)}")
-    print("colidiu! ")
+    #print(f"Maior altura do dino: {min(dino_alturas)} \nMenor Altura do dino: {max(dino_alturas)}")
+    #print("colidiu! ")
 
 
 atualizar()
 animar_dino()
-janela.bind("<Key>", tecla_pressionada)
+#janela.bind("<Key>", tecla_pressionada)
 janela.mainloop()
 
 

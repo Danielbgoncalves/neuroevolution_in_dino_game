@@ -20,7 +20,7 @@ class Simulador:
         # ----- Cactos -----
         # cacto1
         self.cacto1 = {
-            "id": 1, # era canvas aqui mas tiramos a parte vizual
+            "id": 1, 
             "w": 20,
             "h": 30,
             "pos_x": 275
@@ -56,7 +56,7 @@ class Simulador:
             if cacto["pos_x"] < - 60:
                 cacto["pos_x"] = self.LARGURA + 60
 
-                if self.cactos_vel < 18: 
+                if self.cactos_vel < 18.2: 
                     self.cactos_vel += 0.15
         
         self.score += 0.09
@@ -65,16 +65,16 @@ class Simulador:
         self.detectar_colisao()
         
     def atualizar_dino(self):
-        #x, y = canvas.coords(dino)
         self.dino_y += self.movimento_y
-        #canvas.coords(dino, x, y + movimento_y)
         y = self.dino_y
         if y < 300:
-            self.movimento_y += min(1.5, 0.75 + (self.cactos_vel - 5) * 0.05)
+            altura = 300 - y
+            self.movimento_y += min(2.5, 0.75 + (self.cactos_vel - 5) * 0.05)
+            self.score -= 0.002 * altura  
+            # a ideia é punir pulos longos (tinha rede aproveitando esse bug pra voar)
         if y > 300:
             self.movimento_y = 0
             self.dino_y = 300
-            #canvas.coords(dino, x, 300)
     
     def detectar_colisao(self):
         dino_x, dino_y = self.dino_x, self.dino_y
@@ -92,7 +92,6 @@ class Simulador:
                 dino_y_topo < cacto_y and
                 dino_y > cacto_y_topo
             ):
-                #print("Testando colisão!")
                 self.game_over()
     
     def game_over(self):
@@ -114,7 +113,6 @@ class Simulador:
     def rede_joga(self):
         dados = self.coleta_input() 
         pula = self.rede.forward(dados) > 0.5 
-        #print("pulou: ", pula)
 
         if pula and self.movimento_y == 0:
             self.movimento_y = -9

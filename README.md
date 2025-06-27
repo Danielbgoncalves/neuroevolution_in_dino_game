@@ -1,1 +1,1 @@
-# neuroevolution_in_dino_game
+# NEURO EVOLUTION IN THE DINO GAME!
