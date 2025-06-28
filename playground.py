@@ -9,16 +9,19 @@ from JogoComVisual.JogadorRede import JogadorRede
 
 """
     Para poder jogar o jogo no modo usuario ou no modo com a rede neural 
+
+    Quem vai jogar o jogo?
+    1 - Jogador humano
+    2 - Jogador com rede neural
+    
+    => defina na variável ESCOLHA
 """
 
-print("Quem vai jogar ?")
-print("1 Jogador humano")
-print("2 Rede Treinada")
-#escolha = int(input("=> "))
-escolha = 2
-if escolha == 1:
-   # jogador_humano = JogadorHumano()
-   pass
+ESCOLHA = 2
+
+
+if ESCOLHA == 1:
+    jogador_humano = JogadorHumano()
 else:
     rede = RedeNeural(np)
     dados = np.load("RedesJaTreinadas/rede5.npz")
