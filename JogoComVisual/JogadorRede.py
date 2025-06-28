@@ -3,9 +3,11 @@ from JogoComVisual.JogoDinoBase import JogoDinoBase
 
 
 class JogadorRede(JogoDinoBase):
-    def __init__(self, rede):
+    def __init__(self, rede, taxa_gravidade=0.05, velocidade_maxima_cacto=18):
         self.rede = rede
-        super().__init__()
+        super().__init__(taxa_gravidade, velocidade_maxima_cacto)
+
+        
 
     def acao(self):
         dados = self.recolher_input()

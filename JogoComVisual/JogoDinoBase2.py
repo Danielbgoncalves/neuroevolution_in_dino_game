@@ -1,5 +1,4 @@
 import tkinter as tk
-import os, time
 from PIL import Image, ImageTk
 from abc import ABC, abstractmethod
 
@@ -11,7 +10,7 @@ class JogoDinoBase(ABC):
     NUM_FRAMES = 6
     FPS = 100
 
-    def __init__(self, taxa_gravidade=0.05, velocidade_maxima_cacto=18):
+    def __init__(self):
         self.janela = tk.Tk()
         self.janela.title("Dino AI")
         self.canvas = tk.Canvas(self.janela, width=self.LARGURA, height=self.ALTURA)
@@ -22,9 +21,6 @@ class JogoDinoBase(ABC):
         self.dino_vivo = True
         self.score = 1
         self.dino_alturas = []
-        
-        self.TAXA_GRAVIDADE = taxa_gravidade
-        self.velocidade_maxima_cacto = velocidade_maxima_cacto        
 
         self.dino_frames = self.carregar_sprites("assets/dino_azul_anda2.png")
         self.fundo_img = ImageTk.PhotoImage(Image.open("assets/fundo.png").resize((self.LARGURA, self.ALTURA)))
@@ -39,8 +35,9 @@ class JogoDinoBase(ABC):
         self.cactos = [self.cacto1, self.cacto2]
         self.cactos_vel = 8
 
-        self.pontuacao_info = self.canvas.create_text(self.LARGURA - 50, 20, text="Score: 000")
+        self.pontuacao_info = self.canvas.create_text(self.LARGURA - 50, 20, text="Score: 0000")
         self.velocidade_info = self.canvas.create_text(self.LARGURA - 120, 20, text="Velocidade: 0000")
+
 
         self.janela.after(self.FPS, self.animar_dino)
         self.janela.after(30, self.atualizar)
@@ -70,13 +67,12 @@ class JogoDinoBase(ABC):
             x, _ = self.canvas.coords(cacto["id"])
             if x < -60:
                 self.canvas.move(cacto["id"], self.LARGURA + 60, 0)
-                if self.cactos_vel < self.velocidade_maxima_cacto:
+                if self.cactos_vel < 18.2:
                     self.cactos_vel += 0.15
 
         self.score += 0.09
         self.atualizar_dino()
         self.colidiu_dino()
-
         self.canvas.itemconfig(self.pontuacao_info, text=f"Score: {int(self.score)}")
         self.canvas.itemconfig(self.velocidade_info, text=f"Velocidade: {int(self.cactos_vel)}")
 
@@ -92,7 +88,7 @@ class JogoDinoBase(ABC):
         self.canvas.coords(self.dino, x, y + self.movimento_y)
         if y < 300:
             altura = 300 - y
-            self.movimento_y += (0.75 + (self.cactos_vel - 5) * self.TAXA_GRAVIDADE)
+            self.movimento_y += min(2.5, 0.75 + (self.cactos_vel - 5) * 0.05)
             self.score -= 0.002 * altura  
             # a ideia é punir pulos longos (tinha rede aproveitando esse bug pra voar)
         if y > 300:
@@ -118,7 +114,6 @@ class JogoDinoBase(ABC):
                 self.game_over()
 
     def game_over(self):
-        
         self.dino_vivo = False
 
     def tecla_pressionada(self, event):
@@ -128,10 +123,3 @@ class JogoDinoBase(ABC):
     @abstractmethod
     def acao(self):
         pass
-
-    def set_taxa_gravidade(self, taxa):
-        self.TAXA_GRAVIDADE = taxa
-
-    def set_velocidade_maxima_cacto(self, velocidade):
-        self.velocidade_maxima_cacto = velocidade
-    

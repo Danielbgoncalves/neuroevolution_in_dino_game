@@ -8,6 +8,9 @@ class Simulador:
         self.LARGURA = 600
         self.ALTURA = 400
 
+        self.TAXA_GRAVIDADE = 0.05
+        self.VELOCIDADE_MAXIMA_CACTO = 21
+
         # ----- O dino -----
         self.movimento_y = 0
         self.dino_vivo = True
@@ -56,7 +59,7 @@ class Simulador:
             if cacto["pos_x"] < - 60:
                 cacto["pos_x"] = self.LARGURA + 60
 
-                if self.cactos_vel < 18.2: 
+                if self.cactos_vel < self.VELOCIDADE_MAXIMA_CACTO: 
                     self.cactos_vel += 0.15
         
         self.score += 0.09
@@ -68,9 +71,9 @@ class Simulador:
         self.dino_y += self.movimento_y
         y = self.dino_y
         if y < 300:
-            altura = 300 - y
-            self.movimento_y += min(2.5, 0.75 + (self.cactos_vel - 5) * 0.05)
-            self.score -= 0.002 * altura  
+            #altura = 300 - y
+            self.movimento_y += (0.75 + (self.cactos_vel - 5) * self.TAXA_GRAVIDADE)
+            #self.score -= 0.002 * altura  
             # a ideia é punir pulos longos (tinha rede aproveitando esse bug pra voar)
         if y > 300:
             self.movimento_y = 0
@@ -105,8 +108,8 @@ class Simulador:
         return self.np.array([
             min_dist / (self.LARGURA / 2),
             cacto_w / 60, # porque esse é o maior cacto
-            self.cactos_vel / 18,
-            self.movimento_y / 1.5,
+            self.cactos_vel / 18 ,
+            self.movimento_y / 1.5 ,
             (300 - self.dino_y) / (300 - 241.5)
         ])
 

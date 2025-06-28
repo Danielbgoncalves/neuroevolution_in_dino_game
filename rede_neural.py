@@ -37,7 +37,7 @@ class RedeNeural:
         pred = self.sigmoide(z2)
         return pred
     
-    def mutar(self, quantidade, taxa=0.6):
+    def mutar(self, quantidade, taxa=0.9):
         redes_filhas = []
         for _ in range(quantidade):
             nova_rede = RedeNeural(self.np)
