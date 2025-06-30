@@ -1,4 +1,4 @@
-'''import numpy as np
+"""import numpy as np
 import time
 
 from rede_neural import RedeNeural
@@ -53,9 +53,8 @@ def obter_dados(rank):
 
     return melhor_score, media_score, rank[0][1]
 
-""" A partir daqui começa a evolução """
+### A partir daqui começa a evolução 
 
-#sim = Simulador(np)
 populacao = criar_geracao1()
 evoluindo = True
 geracao = 0
@@ -73,7 +72,7 @@ while evoluindo:
     print(f"Melhor score: {melhor_score:.2f}")
     print(f"Score médio: {media_score:.2f}")
 
-    if melhor_score > 1000:
+    if melhor_score > 1000: 
         np.savez(
                     "rede5.npz", 
                     w1=melhor_rede.w1, 
@@ -91,10 +90,22 @@ while evoluindo:
 fim = time.time()   
 print("-"*30)
 print("Velocidade máxima dos cactos no melhor treino:", simulador.VELOCIDADE_MAXIMA_CACTO),
-print(f"Tempo de evolução: {fim - inicio:.2f} segundos")'''
+print(f"Tempo de evolução: {fim - inicio:.2f} segundos")"""
 
+# Na dificuldade
+# TAXA_GRAVIDADE = 0.051
+# VELOCIDADE_MAXIMA_CACTO = 21
+# dezenas de gerações tiveram o resultado estagnado em:
+# ----- Geração: 64 -----
+# Melhor score: 161.56
+# Score médio: 15.22
 
 #################################
+"   2 formas de evolução, a de cima a variabilidade 'genética' ente pais e filhos é constante"
+"   na de baixo, ela é regrada de acordo com a evolução das populações anteriores"
+"   Eu esperaria que a de baixo se saisse melhor, mas no geral evoluem de modo parecido"
+#################################
+
 import numpy as np
 import time
 
@@ -104,11 +115,11 @@ from simulador import Simulador
 TAMANHO_POPULACAO = 100
 NUM_MAX_FRAMES = 50_000
 
-# Parâmetros simples para taxa adaptativa
+# Parâmetros da taxa adaptativa
 TAXA_INICIAL = 0.5
-GERACOES_SEM_MELHORIA_LIMITE = 5  # Mais conservador
-FATOR_AUMENTO = 1.1  # Aumento bem suave
-TAXA_MAXIMA = 1.8  # Limite 
+GERACOES_SEM_MELHORIA_LIMITE = 5  
+FATOR_AUMENTO = 1.1  
+TAXA_MAXIMA = 4  
 
 def criar_geracao1():
     return [RedeNeural(np) for _ in range(TAMANHO_POPULACAO)]
@@ -156,7 +167,7 @@ def obter_dados(rank):
 
     return melhor_score, media_score, rank[0][1]
 
-""" A partir daqui começa a evolução """
+### A partir daqui começa a evolução 
 
 populacao = criar_geracao1()
 evoluindo = True
@@ -196,9 +207,9 @@ while evoluindo:
     print(f"Score médio: {media_score:.2f}")
     print(f"Taxa atual: {taxa_mutacao:.3f}")
 
-    if melhor_score > 150:
+    if melhor_score > 120:
         np.savez(
-            "rede_vel_21.npz", 
+            "rede_pontuadora_150.npz", 
             w1=melhor_rede.w1, 
             w2=melhor_rede.w2,
             b1=melhor_rede.b1,

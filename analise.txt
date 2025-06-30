@@ -1,0 +1,57 @@
+TAXA_GRAVIDADE = 0.051
+VELOCIDADE_MAXIMA_CACTO = 21
+
+Tanto a com taxa de variabilidade constante quando a adaptativa deram resultado semelhantes:
+
+========= CONSTANTE ========= 
+dezenas de gerações tiveram o resultado estagnado em:
+----- Geração: 64 -----
+Melhor score: 161.56
+Score médio: 15.22
+
+========= VARIAVEL ========= 
+----- Geração: 89 -----
+Melhor score: 161.56
+Score médio: 11.44
+Taxa atual: 1.899
+
+=================================================================
+TAXA_GRAVIDADE = 0.049
+VELOCIDADE_MAXIMA_CACTO = 20
+
+========= CONSTANTE =========
+----- Geração: 40 -----
+Melhor score: 187.57
+Score médio: 36.52
+
+========= VARIAVEL =========
+----- Geração: 45 -----
+Taxa de mutação ajustada para: 0.974
+Melhor score: 187.57
+Score médio: 15.33
+Taxa atual: 0.974
+
+=================================================================
+TAXA_GRAVIDADE = 0.05
+VELOCIDADE_MAXIMA_CACTO = 18
+
+========= CONSTANTE =========
+----- Geração: 20 -----
+Melhor score: 154.99
+Score médio: 14.59
+----- Geração: 21 -----
+Melhor score: 4501.00
+Score médio: 59.90
+
+========= VARIAVEL =========
+----- Geração: 12 -----
+Melhor score: 151.21
+Score médio: 10.13
+Taxa atual: 0.500
+----- Geração: 13 -----
+Melhor score: 4501.00
+Score médio: 57.50
+Taxa atual: 0.500
+
+Da pra perceber que a com taxa variável evolui mais rápido
+E pela primeira vez a pontuação cresce demais, o problema é que quando rodamos de modo visual

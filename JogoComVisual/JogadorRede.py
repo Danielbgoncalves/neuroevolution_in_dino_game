@@ -1,8 +1,8 @@
 import numpy as np
 from JogoComVisual.JogoDinoBase import JogoDinoBase
+from JogoComVisual.JogoDinoTurbo import JogoDinoTurbo
 
-
-class JogadorRede(JogoDinoBase):
+class JogadorRede(JogoDinoTurbo):
     def __init__(self, rede, taxa_gravidade=0.05, velocidade_maxima_cacto=18):
         self.rede = rede
         super().__init__(taxa_gravidade, velocidade_maxima_cacto)

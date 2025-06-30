@@ -2,6 +2,7 @@ import tkinter as tk
 import os, time
 from PIL import Image, ImageTk
 from abc import ABC, abstractmethod
+from PyInstalerUtil import resource_path
 
 class JogoDinoBase(ABC):
     LARGURA = 600
@@ -11,7 +12,7 @@ class JogoDinoBase(ABC):
     NUM_FRAMES = 6
     FPS = 100
 
-    def __init__(self, taxa_gravidade=0.05, velocidade_maxima_cacto=18):
+    def __init__(self, taxa_gravidade=0.05, velocidade_maxima_cacto=18, iniciar_loop=True):
         self.janela = tk.Tk()
         self.janela.title("Dino AI")
         self.canvas = tk.Canvas(self.janela, width=self.LARGURA, height=self.ALTURA)
@@ -26,10 +27,10 @@ class JogoDinoBase(ABC):
         self.TAXA_GRAVIDADE = taxa_gravidade
         self.velocidade_maxima_cacto = velocidade_maxima_cacto        
 
-        self.dino_frames = self.carregar_sprites("assets/dino_azul_anda2.png")
-        self.fundo_img = ImageTk.PhotoImage(Image.open("assets/fundo.png").resize((self.LARGURA, self.ALTURA)))
-        self.cacto1_img = ImageTk.PhotoImage(Image.open("assets/cacto1.png"))
-        self.cacto2_img = ImageTk.PhotoImage(Image.open("assets/cacto2.png"))
+        self.dino_frames = self.carregar_sprites(resource_path("assets/dino_azul_anda2.png"))
+        self.fundo_img = ImageTk.PhotoImage(Image.open(resource_path("assets/fundo.png")).resize((self.LARGURA, self.ALTURA)))
+        self.cacto1_img = ImageTk.PhotoImage(Image.open(resource_path("assets/cacto1.png")))
+        self.cacto2_img = ImageTk.PhotoImage(Image.open(resource_path("assets/cacto2.png")))
 
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.fundo_img)
         self.dino = self.canvas.create_image(50, 300, anchor=tk.SW, image=self.dino_frames[self.frame_atual])
@@ -42,10 +43,11 @@ class JogoDinoBase(ABC):
         self.pontuacao_info = self.canvas.create_text(self.LARGURA - 50, 20, text="Score: 000")
         self.velocidade_info = self.canvas.create_text(self.LARGURA - 120, 20, text="Velocidade: 0000")
 
-        self.janela.after(self.FPS, self.animar_dino)
-        self.janela.after(30, self.atualizar)
-        self.janela.bind("<Key>", self.tecla_pressionada)
-        self.janela.mainloop()
+        if iniciar_loop:
+            self.janela.after(self.FPS, self.animar_dino)
+            self.janela.after(30, self.atualizar)
+            self.janela.bind("<Key>", self.tecla_pressionada)
+            self.janela.mainloop()
 
     def carregar_sprites(self, path):
         sprite = Image.open(path)

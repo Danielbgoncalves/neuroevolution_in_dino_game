@@ -20,11 +20,12 @@ from JogoComVisual.JogadorRede import JogadorRede
 ESCOLHA = 2
 
 
+
 if ESCOLHA == 1:
     jogador_humano = JogadorHumano()
 else:
     rede = RedeNeural(np)
-    dados = np.load("RedesJaTreinadas/rede5.npz")
+    dados = np.load("RedesJaTreinadas/rede_pontuadora_120.npz")
     rede.setar_pesos_bias(
         dados["w1"], 
         dados["b1"], 

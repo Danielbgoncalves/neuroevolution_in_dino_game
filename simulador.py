@@ -9,7 +9,7 @@ class Simulador:
         self.ALTURA = 400
 
         self.TAXA_GRAVIDADE = 0.05
-        self.VELOCIDADE_MAXIMA_CACTO = 21
+        self.VELOCIDADE_MAXIMA_CACTO = 18
 
         # ----- O dino -----
         self.movimento_y = 0
