@@ -7,7 +7,8 @@ class JogoDinoTurbo(JogoDinoBase):
 
     def loop_visual_turbo(self):
         # Roda o jogo o mais rápido possível
+        # Limitado apenas pelorender do tkinter
         while self.dino_vivo:
             self.atualizar()
             self.animar_dino()
-            self.janela.update()  # força o Tkinter a renderizar
+            self.janela.update()  
