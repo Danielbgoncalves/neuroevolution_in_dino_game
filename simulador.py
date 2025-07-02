@@ -71,9 +71,9 @@ class Simulador:
         self.dino_y += self.movimento_y
         y = self.dino_y
         if y < 300:
-            #altura = 300 - y
+            altura = 300 - y
             self.movimento_y += (0.75 + (self.cactos_vel - 5) * self.TAXA_GRAVIDADE)
-            #self.score -= 0.002 * altura  
+            self.score -= 0.002 * altura  
             # a ideia é punir pulos longos (tinha rede aproveitando esse bug pra voar)
         if y > 300:
             self.movimento_y = 0
