@@ -8,6 +8,9 @@ Projeto que aplica **Algoritmo Genético** para evolução de redes neurais que 
 ## Olha que bonitinho
 ![imagem de um dino dando um pulinho em um cacto](assets/readme_img/game2.png)
 ---
+## Agora aó o treinamento
+![gif de um dinossauro pulando diversos cactos super rapidamente](assets/readme_img/ia_correndo.gif)
+---
 
 ## Estrutura do projeto
 
