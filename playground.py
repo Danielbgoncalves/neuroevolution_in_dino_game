@@ -12,8 +12,8 @@ from JogoComVisual.JogadorRede import JogadorRede, JogadorRedeTurbo
 
     Quem vai jogar o jogo?
     1 - Jogador humano
-    2 - Jogador com rede neural em velocidade normal
-    3 - Jogador com rede neural em velocidade turbo
+    2 - Rede neural em velocidade normal
+    3 - Rede neural em velocidade turbo
 
 
     => defina na variável ESCOLHA
